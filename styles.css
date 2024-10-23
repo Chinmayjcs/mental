@@ -1,3 +1,4 @@
+/* General Reset and Styling */
 * {
     margin: 0;
     padding: 0;
@@ -16,6 +17,7 @@
     margin: 0 auto;
   }
   
+  /* Header Styles */
   header {
     background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);
     color: white;
@@ -35,6 +37,7 @@
     margin-top: 5px;
   }
   
+  /* Navigation Styles */
   nav {
     background: #333;
     color: white;
@@ -64,6 +67,7 @@
     color: #4CAF50;
   }
   
+  /* Section Styling */
   .section {
     padding: 60px 0;
     background-color: white;
@@ -102,6 +106,7 @@
     color: #555;
   }
   
+  /* Account Card Styles */
   .accounts-section .account-types {
     display: flex;
     justify-content: space-around;
@@ -158,6 +163,7 @@
     margin-top: 10px;
   }
   
+  /* Footer Styles */
   footer {
     background-color: #333;
     color: white;
@@ -172,3 +178,72 @@
     margin: 0;
   }
   
+  /* Login Page Styles */
+  main {
+    max-width: 400px;
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    margin: 60px auto;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    font-size: 1rem;
+    color: #4CAF50;
+    margin-bottom: 8px;
+    text-align: left;
+  }
+  
+  input[type="email"],
+  input[type="password"] {
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #d4d4d4;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: border 0.3s ease;
+  }
+  
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    border-color: #4CAF50;
+    outline: none;
+  }
+  
+  button {
+    padding: 12px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #388E3C;
+  }
+  
+  p {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #333;
+  }
+  
+  p a {
+    color: #4CAF50;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  p a:hover {
+    text-decoration: underline;
+  }
