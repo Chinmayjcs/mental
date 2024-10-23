@@ -9,29 +9,55 @@
         function togglePsychologistFields() {
             const accountType = document.getElementById("account-type").value;
             const psychologistFields = document.getElementById("psychologist-fields");
+            const adminPasskeyField = document.getElementById("admin-passkey-field");
+            const errorMessage = document.getElementById("error-message");
+
+            // Reset error message
+            errorMessage.textContent = "";
+
             if (accountType === "psychologist") {
                 psychologistFields.style.display = "block";
+                adminPasskeyField.style.display = "none"; // Hide admin passkey field for psychologist
+            } else if (accountType === "admin") {
+                psychologistFields.style.display = "none"; // Hide psychologist fields for admin
+                adminPasskeyField.style.display = "block"; // Show admin passkey field
             } else {
-                psychologistFields.style.display = "none";
+                psychologistFields.style.display = "none"; // Hide psychologist fields for user
+                adminPasskeyField.style.display = "none"; // Hide admin passkey field for user
             }
         }
 
         function validateForm(event) {
             const password = document.getElementById("password").value;
             const confirmPassword = document.getElementById("confirm-password").value;
+            const accountType = document.getElementById("account-type").value;
+            const adminPasskey = document.getElementById("admin-passkey").value;
+            const errorMessage = document.getElementById("error-message");
+
+            // Reset error message
+            errorMessage.textContent = "";
 
             // Check if passwords are at least 8 characters
             if (password.length < 8 || confirmPassword.length < 8) {
-                alert("Passwords must be at least 8 characters long.");
+                errorMessage.textContent = "Passwords must be at least 8 characters long.";
                 event.preventDefault(); // Prevent form submission
                 return false;
             }
 
             // Check if passwords match
             if (password !== confirmPassword) {
-                alert("Passwords do not match.");
+                errorMessage.textContent = "Passwords do not match.";
                 event.preventDefault(); // Prevent form submission
                 return false;
+            }
+
+            // Admin passkey validation
+            if (accountType === "admin") {
+                if (adminPasskey !== "CJ17") {
+                    errorMessage.textContent = "INVALID PASSKEY";
+                    event.preventDefault(); // Prevent form submission
+                    return false;
+                }
             }
 
             return true; // Allow form submission if validation passes
@@ -63,6 +89,12 @@
                 
                 <label for="confirm-password">Confirm Password:</label>
                 <input type="password" id="confirm-password" name="confirm-password" required>
+
+                <!-- Admin Passkey Field -->
+                <div id="admin-passkey-field" style="display: none;">
+                    <label for="admin-passkey">Admin Passkey:</label>
+                    <input type="text" id="admin-passkey" name="admin-passkey" required>
+                </div>
                 
                 <!-- Psychologist-specific fields -->
                 <div id="psychologist-fields" style="display: none;">
@@ -81,6 +113,9 @@
                         <option value="no">No</option>
                     </select>
                 </div>
+
+                <!-- Error Message Display -->
+                <div id="error-message" style="color: red; margin-top: 10px;"></div>
                 
                 <button type="submit">Register</button>
             </form>
