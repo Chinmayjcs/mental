@@ -237,7 +237,22 @@
     font-size: 0.9rem;
     color: #333;
   }
+  .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    text-align: center;
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Text size */
+    transition: background-color 0.3s ease; /* Smooth hover transition */
+  }
   
+  .btn:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+
   p a {
     color: #4CAF50;
     font-weight: bold;
@@ -247,3 +262,4 @@
   p a:hover {
     text-decoration: underline;
   }
+

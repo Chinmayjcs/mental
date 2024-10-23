@@ -4,32 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <link rel="stylesheet" href="register.css">
+    <link rel="stylesheet" href="./StyleSheets/register.css">
+    <script>
+        function togglePsychologistFields() {
+            const accountType = document.getElementById("account-type").value;
+            const psychologistFields = document.getElementById("psychologist-fields");
+            if (accountType === "psychologist") {
+                psychologistFields.style.display = "block";
+            } else {
+                psychologistFields.style.display = "none";
+            }
+        }
+
+        function validateForm(event) {
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+
+            // Check if passwords are at least 8 characters
+            if (password.length < 8 || confirmPassword.length < 8) {
+                alert("Passwords must be at least 8 characters long.");
+                event.preventDefault(); // Prevent form submission
+                return false;
+            }
+
+            // Check if passwords match
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                event.preventDefault(); // Prevent form submission
+                return false;
+            }
+
+            return true; // Allow form submission if validation passes
+        }
+    </script>
 </head>
 <body>
     <header>
         <h1>Register a New Account</h1>
     </header>
     <main>
-        <form action="dashboard.html" method="post">
-            <label for="account-type">Account Type:</label>
-            <select id="account-type" name="account-type">
-                <option value="user">User</option>
-                <option value="psychologist">Certified Psychologist</option>
-                <option value="admin">Admin</option>
-            </select>
-            
-            <label for="name">Full Name:</label>
-            <input type="text" id="name" name="name" required>
-            
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-            
-            <button type="submit">Register</button>
-        </form>
+        <div class="form-container">
+            <form action="dashboard.html" method="post" enctype="multipart/form-data" onsubmit="return validateForm(event)">
+                <label for="account-type">Account Type:</label>
+                <select id="account-type" name="account-type" onchange="togglePsychologistFields()" required>
+                    <option value="user">User</option>
+                    <option value="psychologist">Certified Psychologist</option>
+                    <option value="admin">Admin</option>
+                </select>
+                
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+                
+                <!-- Psychologist-specific fields -->
+                <div id="psychologist-fields" style="display: none;">
+                    <label for="degree-upload">Upload Image of Academic Degree (Psychology):</label>
+                    <input type="file" id="degree-upload" name="degree-upload" accept="image/*" required>
+                    <br>
+                    <label for="rci-upload">Upload Image of RCI Certificate (Optional):</label>
+                    <input type="file" id="rci-upload" name="rci-upload" accept="image/*">
+                    <br>
+                    <label for="rci-number">RCI Certificate Number (Optional):</label>
+                    <input type="text" id="rci-number" name="rci-number">
+                    <br>
+                    <label for="professional-org">Are you a member of any professional organization?</label>
+                    <select id="professional-org" name="professional-org" required>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+                
+                <button type="submit">Register</button>
+            </form>
+        </div>
         <p>Already have an account? <a href="login.html">Login here</a></p>
     </main>
     <footer>
