@@ -12,18 +12,17 @@
             const adminPasskeyField = document.getElementById("admin-passkey-field");
             const errorMessage = document.getElementById("error-message");
 
-            // Reset error message
             errorMessage.textContent = "";
 
             if (accountType === "psychologist") {
                 psychologistFields.style.display = "block";
-                adminPasskeyField.style.display = "none"; // Hide admin passkey field for psychologist
+                adminPasskeyField.style.display = "none";
             } else if (accountType === "admin") {
-                psychologistFields.style.display = "none"; // Hide psychologist fields for admin
-                adminPasskeyField.style.display = "block"; // Show admin passkey field
+                psychologistFields.style.display = "none";
+                adminPasskeyField.style.display = "block";
             } else {
-                psychologistFields.style.display = "none"; // Hide psychologist fields for user
-                adminPasskeyField.style.display = "none"; // Hide admin passkey field for user
+                psychologistFields.style.display = "none";
+                adminPasskeyField.style.display = "none";
             }
         }
 
@@ -34,33 +33,56 @@
             const adminPasskey = document.getElementById("admin-passkey").value;
             const errorMessage = document.getElementById("error-message");
 
-            // Reset error message
             errorMessage.textContent = "";
 
-            // Check if passwords are at least 8 characters
             if (password.length < 8 || confirmPassword.length < 8) {
                 errorMessage.textContent = "Passwords must be at least 8 characters long.";
-                event.preventDefault(); // Prevent form submission
+                event.preventDefault();
                 return false;
             }
 
-            // Check if passwords match
             if (password !== confirmPassword) {
                 errorMessage.textContent = "Passwords do not match.";
-                event.preventDefault(); // Prevent form submission
+                event.preventDefault();
                 return false;
             }
 
-            // Admin passkey validation
-            if (accountType === "admin") {
-                if (adminPasskey !== "CJ17") {
-                    errorMessage.textContent = "INVALID PASSKEY";
-                    event.preventDefault(); // Prevent form submission
-                    return false;
-                }
+            if (accountType === "admin" && adminPasskey !== "CJ17") {
+                errorMessage.textContent = "INVALID PASSKEY";
+                event.preventDefault();
+                return false;
             }
 
-            return true; // Allow form submission if validation passes
+            return true;
+        }
+
+        async function submitForm(event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+
+            // Convert form data to JSON object
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch("http://localhost:3000/register", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    alert("Registration successful!");
+                } else {
+                    const result = await response.json();
+                    document.getElementById("error-message").textContent = result.message || "An error occurred.";
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById("error-message").textContent = "Failed to register. Please try again.";
+            }
         }
     </script>
 </head>
@@ -70,7 +92,7 @@
     </header>
     <main>
         <div class="form-container">
-            <form action="dashboard.html" method="post" enctype="multipart/form-data" onsubmit="return validateForm(event)">
+            <form id="registerForm" onsubmit="submitForm(event)">
                 <label for="account-type">Account Type:</label>
                 <select id="account-type" name="account-type" onchange="togglePsychologistFields()" required>
                     <option value="user">User</option>
@@ -90,16 +112,14 @@
                 <label for="confirm-password">Confirm Password:</label>
                 <input type="password" id="confirm-password" name="confirm-password" required>
 
-                <!-- Admin Passkey Field -->
                 <div id="admin-passkey-field" style="display: none;">
                     <label for="admin-passkey">Admin Passkey:</label>
-                    <input type="text" id="admin-passkey" name="admin-passkey" required>
+                    <input type="text" id="admin-passkey" name="admin-passkey">
                 </div>
                 
-                <!-- Psychologist-specific fields -->
                 <div id="psychologist-fields" style="display: none;">
                     <label for="degree-upload">Upload Image of Academic Degree (Psychology):</label>
-                    <input type="file" id="degree-upload" name="degree-upload" accept="image/*" required>
+                    <input type="file" id="degree-upload" name="degree-upload" accept="image/*">
                     <br>
                     <label for="rci-upload">Upload Image of RCI Certificate (Optional):</label>
                     <input type="file" id="rci-upload" name="rci-upload" accept="image/*">
@@ -114,7 +134,6 @@
                     </select>
                 </div>
 
-                <!-- Error Message Display -->
                 <div id="error-message" style="color: red; margin-top: 10px;"></div>
                 
                 <button type="submit">Register</button>
