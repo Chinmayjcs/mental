@@ -36,7 +36,7 @@ app.post('/register', upload.fields([{ name: 'degree-upload' }, { name: 'rci-upl
             professionalOrg,
         });
 
-        await newUser.save(); // Save the new user to the database
+        await newUser.save(); // error is here i guess new user data is not been updated
         res.status(201).json({ message: 'Registration successful!' });
     } catch (error) {
         console.error('Error:', error);
