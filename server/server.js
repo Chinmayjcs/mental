@@ -45,6 +45,6 @@ app.post('/register', upload.fields([{ name: 'degree-upload' }, { name: 'rci-upl
 });
 
 // Start the server
-app.listen(3000, () => {
+app.listen(3001, () => {
     console.log('Server is running on port 3000');
 });
